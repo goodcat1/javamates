@@ -8,6 +8,9 @@
         <dependent-module archiveName="javamates-ejb.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/javamates-ejb/javamates-ejb">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="javamates-model.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/javamates-model/javamates-model">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="javamates"/>
         <property name="java-output-path" value="/javamates/build/classes"/>
     </wb-module>

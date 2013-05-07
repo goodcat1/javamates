@@ -1,27 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE log4j:configuration PUBLIC "-//log4j/log4j Configuration//EN" "log4j.dtd">
-
-<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
-
-	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+	<appender name="CA" class="org.apache.log4j.ConsoleAppender">
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d %-5p %c.%M:%L - %m%n" />
+			<param name="ConversionPattern" value="%d{dd.MM.yyyy HH:mm:ss,SSS} [%t] %-5p %c %x - %m%n" />
 		</layout>
 	</appender>
-
-	<!-- specify the logging level for loggers from other libraries -->
-	<logger name="com.opensymphony">
-		<level value="DEBUG" />
-	</logger>
-
-	<logger name="org.apache.struts2">
-		<level value="DEBUG" />
-	</logger>
-
-	<!-- for all other loggers log only debug and above log messages -->
+	<appender name="FAINFO" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.home}/logs/SystemOut.log"/>
+		<param name="MaxFileSize" value="10MB"/>
+		<param name="MaxBackupIndex" value="10"/>
+		<param name="Threshold" value="INFO"/>
+		<param name="Encoding" value="UTF-8"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{dd.MM.yyyy HH:mm:ss,SSS} [%t] %-5p %c %x - %m%n" />
+		</layout>
+	</appender>
+	<appender name="FAERR" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.home}/logs/SystemErr.log"/>
+		<param name="MaxFileSize" value="10MB"/>
+		<param name="MaxBackupIndex" value="10"/>
+		<param name="Threshold" value="ERROR"/>
+		<param name="Encoding" value="UTF-8"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{dd.MM.yyyy HH:mm:ss,SSS} [%t] %-5p %c %x - %m%n" />
+		</layout>
+	</appender>
+	<appender name="FATRACE" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.home}/logs/trace.log"/>
+		<param name="MaxFileSize" value="10MB"/>
+		<param name="MaxBackupIndex" value="10"/>
+		<param name="Threshold" value="TRACE"/>
+		<param name="Encoding" value="UTF-8"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{dd.MM.yyyy HH:mm:ss,SSS} [%t] %-5p %c %x - %m%n" />
+		</layout>
+	</appender>
+    <logger name="org.apache">
+        <level value="INFO"/>
+    </logger>
+    <logger name="com.opensymphony">
+        <level value="INFO"/>
+    </logger>
+    <logger name="freemarker">
+        <level value="INFO"/>
+    </logger>
 	<root>
-		<priority value="INFO" />
-		<appender-ref ref="STDOUT" />
+		<level value="TRACE" />
+		<appender-ref ref="CA" />
+		<appender-ref ref="FAINFO" />
+		<appender-ref ref="FAERR" />
+		<appender-ref ref="FATRACE" />
 	</root>
-
-</log4j:configuration> 
+</log4j:configuration>

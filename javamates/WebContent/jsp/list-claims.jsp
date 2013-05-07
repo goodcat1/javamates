@@ -4,11 +4,13 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags"%>
 
+<jsp:include page="common-page-head.jsp" />
+
 <div id="claimsRegion">
 	<h1>List of active claims</h1>
 
 	<div id="gridRegion">
-		<s:url var="gridDataUrl" namespace="/" action="ListActiveClaims" />
+		<s:url var="gridDataUrl" namespace="/" action="ListActiveClaimsGrid" />
 		<sjg:grid gridModel="claims" href="%{gridDataUrl}" shrinkToFit="true"
 			autowidth="true">
 			<sjg:gridColumn name="id" title="ID" />

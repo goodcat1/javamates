@@ -19,7 +19,7 @@ public class MyAction extends ActionSupport {
 
 		name = service.message();
 
-		return "success";
+		return SUCCESS;
 	}
 
 	public String getName() {

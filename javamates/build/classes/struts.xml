@@ -8,12 +8,12 @@
 	<bean type="com.opensymphony.xwork2.ObjectFactory" name="cdi"
 		class="edu.javamates.cdi.CdiObjectFactory" />
 
-	<constant name="struts.devMode" value="true" />
+	<constant name="struts.devMode" value="false" />
 
 	<constant name="struts.objectFactory" value="cdi" />
 	<constant name="struts.class.reloading.reloadConfig" value="false" />
 
-	<package name="basicstruts2" namespace="/" extends="struts-default">
+	<package name="basicstruts2" namespace="/" extends="json-default,struts-default">
 
 		<action name="index">
 			<result>/index.jsp</result>
@@ -23,13 +23,19 @@
 			<result name="success">/jsp/my-action.jsp</result>
 		</action>
 
-		<action name="PrepareRequestForClaim"
-			class="edu.javamates.action.PrepareRequestForClaimAction">
+		<action name="PrepareRequestForClaim" class="edu.javamates.action.PrepareRequestForClaimAction">
 			<result name="success">/jsp/request-claim.jsp</result>
 		</action>
-
+		
 		<action name="ListActiveClaims" class="edu.javamates.action.ListActiveClaimsAction">
-			<result name="success" type="org.apache.struts2.json.JSONResult" />
+			<result name="success">/jsp/list-claims.jsp</result>
+		</action>
+
+		<action name="ListActiveClaimsGrid" class="edu.javamates.action.ListActiveClaimsGridAction">
+			<result name="success" type="json">
+				<param name="noCache">true</param>
+				<param name="ignoreHierarchy">false</param>
+			</result>
 		</action>
 
 	</package>

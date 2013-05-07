@@ -1,30 +1,49 @@
 package edu.javamates.dao;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import edu.javamates.dto.ActiveClaimDto;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
+import edu.javamates.dto.ActiveClaimDto;
+import edu.javamates.entity.Claim;
+
+@Stateless
 public class ClaimDaoBean implements ClaimDaoBeanLocal {
+
+	@PersistenceContext(unitName = "javamates-model")
+	protected EntityManager entityManager;
 
 	@Override
 	public List<ActiveClaimDto> listActiveClaims() {
+		TypedQuery<Claim> query = entityManager.createNamedQuery(
+				"Claim.findByUserId", Claim.class).setParameter("userId", new Long(0));
+
+		List<Claim> data = query.getResultList();
+
+		return convert(data);
+	}
+
+	private List<ActiveClaimDto> convert(List<Claim> data) {
 		List<ActiveClaimDto> claims = new ArrayList<>();
 
-		ActiveClaimDto dto = new ActiveClaimDto();
+		for (Claim claim : data) {
+			ActiveClaimDto claimDto = new ActiveClaimDto();
 
-		dto.setAmount(new BigDecimal("1000"));
-		dto.setCreateDate(new Date());
-		dto.setDescription("Test claim");
-		dto.setId(1L);
-		dto.setPeriod(10);
-		dto.setPurpose("Test purpose");
-		dto.setRate(new BigDecimal("1.5"));
-		dto.setState("New");
+			claimDto.setId(claim.getId());
+			claimDto.setAmount(claim.getAmount());
+			claimDto.setCreateDate(claim.getCreateDate());
+			claimDto.setDescription(claim.getDescription());
+			claimDto.setPeriod(claim.getPeriod());
+			claimDto.setPurpose("-");
+			claimDto.setRate(claim.getRate());
+			claimDto.setState("-");
 
-		claims.add(dto);
+			claims.add(claimDto);
+		}
 
 		return claims;
 	}
