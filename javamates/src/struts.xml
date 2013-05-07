@@ -16,7 +16,7 @@
 	<package name="basicstruts2" namespace="/" extends="json-default,struts-default">
 
 		<action name="index">
-			<result>/index.jsp</result>
+			<result>/jsp/common-page.jsp</result>
 		</action>
 
 		<action name="MyAction" class="edu.javamates.action.MyAction">

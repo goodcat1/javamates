@@ -13,21 +13,21 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(schema = "JAVAMATES", name = "CLAIM")
-@SequenceGenerator(schema = "JAVAMATES", name = "SEQ_CLAIM", sequenceName = "SEQ_CLAIM", allocationSize = 1)
+@Table(name = "CLAIM")
 @NamedQueries({ @NamedQuery(name = "Claim.findByUserId", query = "SELECT OBJECT(c) FROM Claim c WHERE c.userId = :userId") })
 public class Claim implements Serializable {
 	private static final long serialVersionUID = 2358695393079505762L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CLAIM")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(name = "user_id")
 	private Long userId;
 	private BigDecimal amount;
 	private Integer period;
 	private BigDecimal rate;
-	private Long purpose_id;
+	@Column(name = "purpose_id")
+	private Long purposeId;
 	@Column(name = "create_date")
 	private Date createDate;
 	@Column(name = "status_id")
@@ -78,12 +78,12 @@ public class Claim implements Serializable {
 		this.rate = rate;
 	}
 
-	public Long getPurpose_id() {
-		return this.purpose_id;
+	public Long getPurposeId() {
+		return this.purposeId;
 	}
 
-	public void setPurpose_id(Long purpose_id) {
-		this.purpose_id = purpose_id;
+	public void setPurpose_id(Long purposeId) {
+		this.purposeId = purposeId;
 	}
 
 	public Date getCreateDate() {
@@ -113,8 +113,8 @@ public class Claim implements Serializable {
 	@Override
 	public String toString() {
 		return "Claim [id=" + id + ", userId=" + userId + ", amount=" + amount
-				+ ", period=" + period + ", rate=" + rate + ", purpose_id="
-				+ purpose_id + ", createDate=" + createDate + ", statusId="
+				+ ", period=" + period + ", rate=" + rate + ", purposeId="
+				+ purposeId + ", createDate=" + createDate + ", statusId="
 				+ statusId + ", description=" + description + "]";
 	}
 
