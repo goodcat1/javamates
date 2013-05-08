@@ -4,23 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import edu.javamates.dto.ActiveClaimDto;
 import edu.javamates.entity.Claim;
+import edu.javamates.mdb.MailNotificationsSenderLocal;
+import edu.javamates.mdb.Notification;
 
 @Stateless
-public class ClaimDaoBean implements ClaimDaoBeanLocal {
+public class ClaimDaoBean extends AbstractDaoBean<Claim> implements
+		ClaimDaoBeanLocal {
 
 	@PersistenceContext(unitName = "javamates-model")
 	protected EntityManager entityManager;
 
+	@Inject
+	private MailNotificationsSenderLocal mailSender;
+
 	@Override
 	public List<ActiveClaimDto> listActiveClaims() {
 		TypedQuery<Claim> query = entityManager.createNamedQuery(
-				"Claim.findByUserId", Claim.class).setParameter("userId", new Long(0));
+				"Claim.findByUserId", Claim.class).setParameter("userId",
+				new Long(0));
 
 		List<Claim> data = query.getResultList();
 
@@ -48,4 +56,19 @@ public class ClaimDaoBean implements ClaimDaoBeanLocal {
 		return claims;
 	}
 
+	@Override
+	public Claim createNewClaim(Claim claim) {
+
+		claim = super.update(claim);
+
+		Notification notification = new Notification();
+
+		notification.setMessage(String.format(
+				"Claim ID = %1$s with AMOUNT = %2$s created", claim.getId(),
+				claim.getAmount()));
+
+		mailSender.sendMessage(notification);
+
+		return claim;
+	}
 }

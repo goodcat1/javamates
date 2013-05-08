@@ -82,7 +82,7 @@ public class Claim implements Serializable {
 		return this.purposeId;
 	}
 
-	public void setPurpose_id(Long purposeId) {
+	public void setPurposeId(Long purposeId) {
 		this.purposeId = purposeId;
 	}
 

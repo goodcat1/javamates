@@ -10,7 +10,7 @@
 	<div id="gridRegion">
 		<s:url var="gridDataUrl" namespace="/" action="ListActiveClaimsGrid" />
 		<sjg:grid gridModel="claims" href="%{gridDataUrl}" shrinkToFit="true"
-			autowidth="true"
+			autowidth="true" hiddengrid="true"
 			cssStyle="font: 12px 'HelveticaNeue'; letter-spacing: 0.6px;">
 			<sjg:gridColumn name="id" title="ID" />
 			<sjg:gridColumn name="createDate" title="Creation date" />
