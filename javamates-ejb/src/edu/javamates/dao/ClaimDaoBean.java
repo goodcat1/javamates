@@ -9,6 +9,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.javamates.dto.ActiveClaimDto;
 import edu.javamates.entity.Claim;
 import edu.javamates.mdb.MailNotificationsSenderLocal;
@@ -17,6 +20,8 @@ import edu.javamates.mdb.Notification;
 @Stateless
 public class ClaimDaoBean extends AbstractDaoBean<Claim> implements
 		ClaimDaoBeanLocal {
+	private static final Logger log = LoggerFactory
+			.getLogger(ClaimDaoBean.class);
 
 	@PersistenceContext(unitName = "javamates-model")
 	protected EntityManager entityManager;
@@ -59,6 +64,8 @@ public class ClaimDaoBean extends AbstractDaoBean<Claim> implements
 	@Override
 	public Claim createNewClaim(Claim claim) {
 
+		log.debug("Create new Claim [{}]", claim);
+
 		claim = super.update(claim);
 
 		Notification notification = new Notification();
@@ -71,4 +78,5 @@ public class ClaimDaoBean extends AbstractDaoBean<Claim> implements
 
 		return claim;
 	}
+
 }

@@ -3,6 +3,7 @@
 	<name>javamates</name>
 	<comment></comment>
 	<projects>
+		<project>bank-service-mockClient</project>
 		<project>javamates-ejb</project>
 		<project>javamates-ejb-client</project>
 		<project>javamates-model</project>

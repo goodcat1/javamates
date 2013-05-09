@@ -1,14 +1,19 @@
 package edu.javamates.action;
 
+import java.rmi.RemoteException;
 import java.util.Date;
 
 import javax.inject.Inject;
 
+import org.apache.axis2.AxisFault;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import edu.bank.ws.ClientInfoStub;
+import edu.bank.ws.ClientInfoStub.ClientStatus;
+import edu.bank.ws.ClientInfoStub.ClientStatusResponse;
 import edu.javamates.converter.CreateNewClaimActionDtoToClaim;
 import edu.javamates.dao.ClaimDaoBeanLocal;
 import edu.javamates.dto.CreateNewClaimActionDto;
@@ -29,13 +34,20 @@ public class CreateNewRequestAction extends ActionSupport {
 	@Inject
 	ClaimDaoBeanLocal claimDaoBean;
 
+	private ClientInfoStub service;
+
 	@Override
 	public String execute() throws Exception {
 
 		log.debug("Create claim [{}]", String.valueOf(claim));
 
+		boolean isActive = checkClientStatus(0L);
+
+		if (!isActive)
+			throw new RuntimeException("Client blocked");
+
 		Claim claimEntity = CreateNewClaimActionDtoToClaim.toEntity(claim);
-		
+
 		claimEntity.setCreateDate(new Date());
 
 		claimEntity.setUserId(0L);
@@ -48,6 +60,40 @@ public class CreateNewRequestAction extends ActionSupport {
 		status = "success";
 
 		return SUCCESS;
+	}
+
+	private boolean checkClientStatus(Long id) {
+		try {
+			ClientStatus request = new ClientStatus();
+
+			request.setId(0L);
+
+			ClientStatusResponse response = getService().clientStatus(request);
+
+			String status = response.get_return();
+
+			log.debug("Client [{}] status is [{}]", id, status);
+
+			return "ACTIVE".equals(status);
+
+		} catch (RemoteException e) {
+
+			log.error("Error calling web service for client status", e);
+
+			throw new RuntimeException(e.getCause());
+		}
+	}
+
+	private ClientInfoStub getService() {
+		try {
+			service = new ClientInfoStub();
+		} catch (AxisFault e) {
+			log.error("Failed create web service ref", e);
+
+			throw new RuntimeException(e.getCause());
+		}
+
+		return service;
 	}
 
 	public CreateNewClaimActionDto getClaim() {

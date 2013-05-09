@@ -15,7 +15,7 @@ public class CreateNewClaimActionDtoToClaim {
 
 		claim.setPeriod(dto.getPeriod());
 
-		claim.setPurposeId(dto.getPurposeId());
+		claim.setPurposeId(0L);// TODO purposeID
 
 		claim.setRate(dto.getRate());
 

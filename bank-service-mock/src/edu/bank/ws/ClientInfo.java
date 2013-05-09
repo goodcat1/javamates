@@ -1,8 +1,7 @@
 package edu.bank.ws;
 
-import javax.jws.WebService;
-
-@WebService(targetNamespace = "http://ws.bank.edu/wsdl")
-public interface ClientInfo {
-	boolean hasAccount(Long clientId);
+public class ClientInfo {
+	public String clientStatus(Long id) {
+		return Long.valueOf(0).equals(id) ? "ACTIVE" : "BLOCKED";
+	}
 }

@@ -10,7 +10,7 @@ public class CreateNewClaimActionDto implements Serializable {
 	private BigDecimal amount;
 	private Integer period;
 	private BigDecimal rate;
-	private Long purposeId;
+	private Long purpose;
 	private Date createDate;
 	private Long statusId;
 	private String description;
@@ -39,12 +39,12 @@ public class CreateNewClaimActionDto implements Serializable {
 		this.rate = rate;
 	}
 
-	public Long getPurposeId() {
-		return purposeId;
+	public Long getPurpose() {
+		return purpose;
 	}
 
-	public void setPurposeId(Long purposeId) {
-		this.purposeId = purposeId;
+	public void setPurpose(Long purpose) {
+		this.purpose = purpose;
 	}
 
 	public Date getCreateDate() {
@@ -74,7 +74,7 @@ public class CreateNewClaimActionDto implements Serializable {
 	@Override
 	public String toString() {
 		return "CreateNewClaimActionDto [amount=" + amount + ", period="
-				+ period + ", rate=" + rate + ", purposeId=" + purposeId
+				+ period + ", rate=" + rate + ", purpose=" + purpose
 				+ ", createDate=" + createDate + ", statusId=" + statusId
 				+ ", description=" + description + "]";
 	}
