@@ -1,12 +1,15 @@
 package edu.javamates.dao;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-public abstract class AbstractDaoBean<T extends Serializable> implements
-		AbstractDaoBeanLocal<T> {
+import edu.javamates.AbstractTestableBean;
+
+public abstract class AbstractDaoBean<T extends Serializable> extends
+		AbstractTestableBean implements AbstractDaoBeanLocal<T> {
 
 	@PersistenceContext(unitName = "javamates-model")
 	protected EntityManager entityManager;
@@ -35,10 +38,12 @@ public abstract class AbstractDaoBean<T extends Serializable> implements
 	}
 
 	@Override
-	public void findById(Long id) {
-		Class<T> entityClass = null;
+	@SuppressWarnings("unchecked")
+	public T findById(Long id) {
+		Class<T> entityClass = (Class<T>) ((ParameterizedType) getClass()
+				.getGenericSuperclass()).getActualTypeArguments()[0];
 
-		entityManager.find(entityClass, id);
+		return entityManager.find(entityClass, id);
 	}
 
 }

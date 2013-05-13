@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Mon May 13 16:33:01 MSK 2013:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-013e-9de1-2971-ffffd9a1ad3a 
+on database directory memory:D:\sites\javamates\javamates\javamates-ejb-tests\javamates-junit with class loader sun.misc.Launcher$AppClassLoader@765291 
+Loaded from file:/D:/sites/javamates/javamates/javamates-ejb-tests/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_17-b02
+user.dir=D:\sites\javamates\javamates\javamates-ejb-tests
+os.name=Windows XP
+os.arch=x86
+os.version=5.1
+derby.system.home=D:\sites\javamates\javamates\javamates-ejb-tests
+Database Class Loader started - derby.database.classpath=''

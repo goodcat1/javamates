@@ -41,7 +41,7 @@ public class CreateNewRequestAction extends ActionSupport {
 
 		log.debug("Create claim [{}]", String.valueOf(claim));
 
-		boolean isActive = checkClientStatus(0L);
+		boolean isActive = checkClientStatus(1L);
 
 		if (!isActive)
 			throw new RuntimeException("Client blocked");
@@ -66,7 +66,7 @@ public class CreateNewRequestAction extends ActionSupport {
 		try {
 			ClientStatus request = new ClientStatus();
 
-			request.setId(0L);
+			request.setId(id);
 
 			ClientStatusResponse response = getService().clientStatus(request);
 
