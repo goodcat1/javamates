@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Javamates">
+
+	<property name="appserver.home" value="D:/apps/apache-tomee-plus-1.5.2" />
+
+	<fileset id="appserver.lib" dir="${appserver.home}">
+		<include name="lib/*.jar" />
+	</fileset>
+
+	<property name="source.level" value="1.7" />
+	<property name="target.level" value="1.7" />
+
+	<property name="user.name" value="shitov" />
+	<property name="company" value="edu" />
+	<property name="buildVersion" value="1.0.0.0" />
+	<property name="vendorVersion" value="0.1" />
+
+	<tstamp>
+		<format property="time" pattern="yyyy-MM-dd HH:mm:ss Z" timezone="Europe/Moscow" />
+	</tstamp>
+
+	<!-- Modules -->
+
+	<!-- javamates-model -->
+	<property name="javamates-model" value="../javamates-model" />
+	<property name="javamates-model.src" value="${javamates-model}/src" />
+	<property name="javamates-model.target" value="${javamates-model}/build/classes" />
+	<property name="javamates-model.module" value="javamates-model.jar" />
+
+	<!-- javamates-ejb -->
+	<property name="javamates-ejb" value="../javamates-ejb" />
+	<property name="javamates-ejb.src" value="${javamates-ejb}/src" />
+	<property name="javamates-ejb.target" value="${javamates-ejb}/build/classes" />
+	<property name="javamates-ejb.module" value="javamates-ejb.jar" />
+
+	<!-- javamates-ejb-client -->
+	<property name="javamates-ejb-client" value="../javamates-ejb-client" />
+	<property name="javamates-ejb-client.src" value="${javamates-ejb-client}/src" />
+	<property name="javamates-ejb-client.target" value="${javamates-ejb-client}/build/classes" />
+	<property name="javamates-ejb-client.module" value="javamates-ejb-client.jar" />
+
+	<!-- javamates-ejb-tests -->
+	<property name="javamates-ejb-tests" value="../javamates-ejb-tests" />
+	<property name="javamates-ejb-tests.src" value="${javamates-ejb-tests}/src" />
+	<property name="javamates-ejb-tests.target" value="${javamates-ejb-tests}/build/classes" />
+	<property name="javamates-ejb-tests.module" value="javamates-ejb-tests.jar" />
+	<property name="javamates-ejb-tests.lib" value="${javamates-ejb-tests}/lib" />
+	<fileset id="javamates-ejb-tests.libs" dir="${javamates-ejb-tests}/lib">
+		<include name="*.jar" />
+	</fileset>
+
+	<!-- bank-service-mock -->
+	<property name="bank-service-mock" value="../bank-service-mock" />
+	<property name="bank-service-mock.src" value="${bank-service-mock}/src" />
+	<property name="bank-service-mock.web" value="${bank-service-mock}/WebContent" />
+	<property name="bank-service-mock.distr" value="${bank-service-mock}/distr" />
+	<property name="bank-service-mock.target" value="${bank-service-mock}/WebContent/WEB-INF/classes" />
+	<property name="bank-service-mock.module" value="bank-service-mock.war" />
+
+	<!-- bank-service-mockClient -->
+	<property name="bank-service-mockClient" value="../bank-service-mockClient" />
+	<property name="bank-service-mockClient.src" value="${bank-service-mockClient}/src" />
+	<property name="bank-service-mockClient.web" value="${bank-service-mockClient}/WebContent" />
+	<property name="bank-service-mockClient.distr" value="${bank-service-mockClient}/distr" />
+	<property name="bank-service-mockClient.target" value="${bank-service-mockClient}/WebContent/WEB-INF/classes" />
+	<property name="bank-service-mockClient.module" value="bank-service-mockClient.war" />
+
+	<!-- javamates -->
+	<property name="javamates" value="" />
+	<property name="javamates.src" value="src" />
+	<property name="javamates.web" value="WebContent" />
+	<property name="javamates.target" value="build/classes" />
+	<property name="javamates.distr" value="distr" />
+	<property name="javamates.module" value="javamates.war" />
+	<property name="javamates.lib.dir" value="WebContent/WEB-INF/lib" />
+	<fileset id="javamates.libs" dir="${javamates.lib.dir}">
+		<include name="*.jar" />
+		<exclude name="commons-lang-2.4.jar" />
+	</fileset>
+
+	<!-- End of modules -->
+
+	<target name="clean">
+		<delete dir="${javamates-model.target}" />
+		<delete dir="${javamates-ejb.target}" />
+		<delete dir="${javamates-ejb-client.target}" />
+		<delete dir="${javamates-ejb-tests.target}" />
+		<delete dir="${bank-service-mock.target}" />
+		<delete dir="${bank-service-mockClient.target}" />
+		<delete dir="${javamates.target}" />
+		<delete dir="${javamates.distr}" />
+		<delete dir="${javamates.lib.dir}" includes="javamates*.jar" />
+	</target>
+
+	<target name="init">
+		<mkdir dir="${javamates-model.target}" />
+		<mkdir dir="${javamates-ejb.target}" />
+		<mkdir dir="${javamates-ejb-client.target}" />
+		<mkdir dir="${javamates-ejb-tests.target}" />
+		<mkdir dir="${bank-service-mock.target}" />
+		<mkdir dir="${bank-service-mockClient.target}" />
+		<mkdir dir="${javamates.target}" />
+		<mkdir dir="${javamates.distr}" />
+	</target>
+
+	<target name="make-javamates-model" depends="clean, init" description="Build module javamates-model">
+		<echo message="Building module javamates-model..." />
+
+		<javac srcdir="${javamates-model.src}" destdir="${javamates-model.target}" source="${source.level}" target="${target.level}">
+			<classpath>
+				<fileset refid="appserver.lib" />
+				<fileset refid="javamates.libs" />
+			</classpath>
+		</javac>
+
+		<copy todir="${javamates-model.target}/META-INF">
+			<fileset dir="${javamates-model.src}/META-INF" />
+		</copy>
+
+		<copy todir="${javamates-model.target}">
+			<fileset dir="${javamates-model.src}">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+
+		<jar destfile="${javamates.lib.dir}/${javamates-model.module}">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Implementation-Vendor" value="${company}" />
+				<attribute name="Implementation-Title" value="${ant.project.name}" />
+				<attribute name="Implementation-Version" value="${buildVersion}" />
+				<attribute name="Built-Time" value="${time}" />
+				<attribute name="Vendor-Version" value="${vendorVersion}" />
+			</manifest>
+
+			<fileset dir="${javamates-model.target}" />
+		</jar>
+
+		<echo message="Building javamates-model has been performed successfully" />
+	</target>
+
+	<target name="make-bank-service-mock" depends="clean, init" description="Build module bank-service-mock">
+		<echo message="Building module bank-service-mock..." />
+
+		<javac srcdir="${bank-service-mock.src}" destdir="${bank-service-mock.target}" source="${source.level}" target="${target.level}">
+			<classpath>
+				<fileset refid="appserver.lib" />
+				<fileset refid="javamates.libs" />
+			</classpath>
+		</javac>
+
+		<copy todir="${bank-service-mock.target}">
+			<fileset dir="${bank-service-mock.src}">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+
+		<war destfile="${bank-service-mock.distr}/${bank-service-mock.module}">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Implementation-Vendor" value="${company}" />
+				<attribute name="Implementation-Title" value="${ant.project.name}" />
+				<attribute name="Implementation-Version" value="${buildVersion}" />
+				<attribute name="Built-Time" value="${time}" />
+				<attribute name="Vendor-Version" value="${vendorVersion}" />
+			</manifest>
+
+			<fileset dir="${bank-service-mock.web}" />
+		</war>
+
+		<echo message="Building bank-service-mock has been performed successfully" />
+	</target>
+
+	<target name="make-bank-service-mockClient" depends="clean, init" description="Build module bank-service-mockClient">
+		<echo message="Building module bank-service-mockClient..." />
+
+		<javac srcdir="${bank-service-mockClient.src}" destdir="${bank-service-mockClient.target}" source="${source.level}" target="${target.level}">
+			<classpath>
+				<fileset refid="appserver.lib" />
+				<fileset refid="javamates.libs" />
+			</classpath>
+		</javac>
+
+		<copy todir="${bank-service-mockClient.target}">
+			<fileset dir="${bank-service-mockClient.src}">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+
+		<war destfile="${bank-service-mockClient.distr}/${bank-service-mockClient.module}">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Implementation-Vendor" value="${company}" />
+				<attribute name="Implementation-Title" value="${ant.project.name}" />
+				<attribute name="Implementation-Version" value="${buildVersion}" />
+				<attribute name="Built-Time" value="${time}" />
+				<attribute name="Vendor-Version" value="${vendorVersion}" />
+			</manifest>
+
+			<fileset dir="${bank-service-mockClient.web}" />
+		</war>
+
+		<echo message="Building bank-service-mockClient has been performed successfully" />
+	</target>
+
+	<target name="make-javamates-ejb-client" depends="clean, init, make-javamates-model" description="Build module javamates-ejb-client">
+		<echo message="Building module javamates-model..." />
+
+		<javac srcdir="${javamates-ejb-client.src}" destdir="${javamates-ejb-client.target}" source="${source.level}" target="${target.level}">
+			<classpath>
+				<fileset refid="appserver.lib" />
+				<fileset refid="javamates.libs" />
+				<path path="${javamates-model.target}" />
+			</classpath>
+		</javac>
+
+		<copy todir="${javamates-ejb-client.target}/META-INF">
+			<fileset dir="${javamates-ejb-client.src}/META-INF" />
+		</copy>
+
+		<copy todir="${javamates-ejb-client.target}">
+			<fileset dir="${javamates-ejb-client.src}">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+
+		<jar destfile="${javamates.lib.dir}/${javamates-ejb-client.module}">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Implementation-Vendor" value="${company}" />
+				<attribute name="Implementation-Title" value="${ant.project.name}" />
+				<attribute name="Implementation-Version" value="${buildVersion}" />
+				<attribute name="Built-Time" value="${time}" />
+				<attribute name="Vendor-Version" value="${vendorVersion}" />
+			</manifest>
+
+			<fileset dir="${javamates-ejb-client.target}" />
+		</jar>
+
+		<echo message="Building javamates-ejb-client has been performed successfully" />
+	</target>
+
+	<target name="make-javamates-ejb" depends="clean, init, make-javamates-model, make-javamates-ejb-client" description="Build module javamates-ejb">
+		<echo message="Building module javamates-ejb..." />
+
+		<javac srcdir="${javamates-ejb.src}" destdir="${javamates-ejb.target}" source="${source.level}" target="${target.level}">
+			<classpath>
+				<fileset refid="appserver.lib" />
+				<fileset refid="javamates.libs" />
+				<path path="${javamates-model.target}" />
+				<path path="${javamates-ejb-client.target}" />
+			</classpath>
+		</javac>
+
+		<copy todir="${javamates-ejb.target}/META-INF">
+			<fileset dir="${javamates-ejb.src}/META-INF" />
+		</copy>
+
+		<copy todir="${javamates-ejb.target}">
+			<fileset dir="${javamates-ejb.src}">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+
+		<jar destfile="${javamates.lib.dir}/${javamates-ejb.module}">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Implementation-Vendor" value="${company}" />
+				<attribute name="Implementation-Title" value="${ant.project.name}" />
+				<attribute name="Implementation-Version" value="${buildVersion}" />
+				<attribute name="Built-Time" value="${time}" />
+				<attribute name="Vendor-Version" value="${vendorVersion}" />
+			</manifest>
+
+			<fileset dir="${javamates-ejb.target}" />
+		</jar>
+
+		<echo message="Building javamates-ejb has been performed successfully" />
+	</target>
+
+	<target name="make-javamates-ejb-tests" depends="clean, init, make-javamates-model, make-javamates-ejb-client, make-javamates-ejb, make-bank-service-mock, make-bank-service-mockClient" description="Build module javamates-ejb-tests">
+		<echo message="Building module javamates-ejb-tests..." />
+
+		<javac srcdir="${javamates-ejb-tests.src}" destdir="${javamates-ejb-tests.target}" source="${source.level}" target="${target.level}">
+			<classpath>
+				<fileset refid="appserver.lib" />
+				<fileset refid="javamates-ejb-tests.libs" />
+				<path path="${javamates-model.target}" />
+				<path path="${javamates-ejb-client.target}" />
+				<path path="${javamates-ejb.target}" />
+			</classpath>
+		</javac>
+
+		<copy todir="${javamates-ejb-tests.target}">
+			<fileset dir="${javamates-ejb-tests.src}">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+
+		<jar destfile="${javamates.lib.dir}/${javamates-ejb-tests.module}">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Implementation-Vendor" value="${company}" />
+				<attribute name="Implementation-Title" value="${ant.project.name}" />
+				<attribute name="Implementation-Version" value="${buildVersion}" />
+				<attribute name="Built-Time" value="${time}" />
+				<attribute name="Vendor-Version" value="${vendorVersion}" />
+			</manifest>
+
+			<fileset dir="${javamates-ejb-tests.target}" />
+		</jar>
+
+		<echo message="Building javamates-ejb-tests has been performed successfully" />
+	</target>
+</project>
