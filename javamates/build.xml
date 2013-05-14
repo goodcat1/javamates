@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Javamates">
+<project name="Javamates" default="make-javamates">
 
 	<property name="appserver.home" value="D:/apps/apache-tomee-plus-1.5.2" />
 
 	<fileset id="appserver.lib" dir="${appserver.home}">
 		<include name="lib/*.jar" />
+	</fileset>
+
+	<fileset id="hibernate.lib" dir="../hibernate_lib">
+		<include name="*.jar" />
 	</fileset>
 
 	<property name="source.level" value="1.7" />
@@ -43,6 +47,7 @@
 	<property name="javamates-ejb-tests" value="../javamates-ejb-tests" />
 	<property name="javamates-ejb-tests.src" value="${javamates-ejb-tests}/src" />
 	<property name="javamates-ejb-tests.target" value="${javamates-ejb-tests}/build/classes" />
+	<property name="javamates-ejb-tests.reports" value="${javamates-ejb-tests}/reports" />
 	<property name="javamates-ejb-tests.module" value="javamates-ejb-tests.jar" />
 	<property name="javamates-ejb-tests.lib" value="${javamates-ejb-tests}/lib" />
 	<fileset id="javamates-ejb-tests.libs" dir="${javamates-ejb-tests}/lib">
@@ -69,7 +74,7 @@
 	<property name="javamates" value="" />
 	<property name="javamates.src" value="src" />
 	<property name="javamates.web" value="WebContent" />
-	<property name="javamates.target" value="build/classes" />
+	<property name="javamates.target" value="WebContent/WEB-INF/classes" />
 	<property name="javamates.distr" value="distr" />
 	<property name="javamates.module" value="javamates.war" />
 	<property name="javamates.lib.dir" value="WebContent/WEB-INF/lib" />
@@ -90,6 +95,7 @@
 		<delete dir="${javamates.target}" />
 		<delete dir="${javamates.distr}" />
 		<delete dir="${javamates.lib.dir}" includes="javamates*.jar" />
+		<delete dir="${javamates-ejb-tests.reports}" />
 	</target>
 
 	<target name="init">
@@ -101,6 +107,7 @@
 		<mkdir dir="${bank-service-mockClient.target}" />
 		<mkdir dir="${javamates.target}" />
 		<mkdir dir="${javamates.distr}" />
+		<mkdir dir="${javamates-ejb-tests.reports}" />
 	</target>
 
 	<target name="make-javamates-model" depends="clean, init" description="Build module javamates-model">
@@ -297,7 +304,52 @@
 			</fileset>
 		</copy>
 
-		<jar destfile="${javamates.lib.dir}/${javamates-ejb-tests.module}">
+		<jar destfile="${javamates-ejb-tests.lib}/${javamates-ejb-tests.module}">
+			<fileset dir="${javamates-ejb-tests.target}" />
+		</jar>
+
+		<echo message="Running javamates-ejb-tests..." />
+
+		<junit fork="true" printsummary="true" haltonfailure="false" includeantruntime="true" maxmemory="1024m" logfailedtests="true" forkmode="once">
+			<classpath>
+				<fileset refid="appserver.lib" />
+				<fileset refid="hibernate.lib" />
+				<fileset refid="javamates.libs" />
+				<fileset dir="${javamates-ejb-tests.lib}" />
+			</classpath>
+
+			<batchtest fork="true" todir="${javamates-ejb-tests.reports}">
+				<fileset dir="${javamates-ejb-tests.target}">
+					<include name="**/*.class" />
+
+					<exclude name="**/MainSuite.class" />
+					<exclude name="**/Abstract*.class" />
+				</fileset>
+			</batchtest>
+
+			<formatter type="xml" />
+		</junit>
+
+		<echo message="Building javamates-ejb-tests has been performed successfully" />
+	</target>
+
+	<target name="make-javamates" depends="make-javamates-ejb" description="Build application">
+		<echo message="Building javamates application..." />
+
+		<javac srcdir="${javamates.src}" destdir="${javamates.target}" source="${source.level}" target="${target.level}">
+			<classpath>
+				<fileset refid="appserver.lib" />
+				<fileset refid="javamates.libs" />
+			</classpath>
+		</javac>
+
+		<copy todir="${javamates.target}">
+			<fileset dir="${javamates.src}">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+
+		<war destfile="${javamates.distr}/${javamates.module}">
 			<manifest>
 				<attribute name="Built-By" value="${user.name}" />
 				<attribute name="Implementation-Vendor" value="${company}" />
@@ -307,9 +359,9 @@
 				<attribute name="Vendor-Version" value="${vendorVersion}" />
 			</manifest>
 
-			<fileset dir="${javamates-ejb-tests.target}" />
-		</jar>
+			<fileset dir="${javamates.web}" />
+		</war>
 
-		<echo message="Building javamates-ejb-tests has been performed successfully" />
+		<echo message="Building javamates has been performed successfully" />
 	</target>
 </project>

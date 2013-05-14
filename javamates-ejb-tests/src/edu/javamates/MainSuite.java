@@ -26,12 +26,9 @@ public class MainSuite {
 
 	private static EJBContainer ejbContainer;
 
-	private static boolean isSuiteRunning = false;
-
 	@BeforeClass
 	public static void setUp() {
 		log.info("MainSuite setup");
-		isSuiteRunning = true;
 		initContainer();
 	}
 
@@ -121,9 +118,5 @@ public class MainSuite {
 
 	public static EJBContainer getEJBContainer() {
 		return ejbContainer;
-	}
-
-	public static boolean isSuiteRunning() {
-		return isSuiteRunning;
 	}
 }
