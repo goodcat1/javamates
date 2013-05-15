@@ -18,20 +18,47 @@ import javax.persistence.*;
 public class Claim implements Serializable {
 	private static final long serialVersionUID = 2358695393079505762L;
 
+	/**
+	 * Id of claim
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	/**
+	 * User identificator
+	 */
 	@Column(name = "user_id")
 	private Long userId;
+	/**
+	 * Claim amount
+	 */
 	private BigDecimal amount;
+	/**
+	 * Period of loan in months
+	 */
 	private Integer period;
+	/**
+	 * Claim rate
+	 */
 	private BigDecimal rate;
+	/**
+	 * Reference to purpose of claim
+	 */
 	@Column(name = "purpose_id")
 	private Long purposeId;
+	/**
+	 * Datetime of creating claim
+	 */
 	@Column(name = "create_date")
 	private Date createDate;
+	/**
+	 * Reference to staus of claim
+	 */
 	@Column(name = "status_id")
 	private Long statusId;
+	/**
+	 * Description of claim
+	 */
 	private String description;
 
 	public Claim() {

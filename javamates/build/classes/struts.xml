@@ -21,10 +21,6 @@
 			<result>/jsp/my-action.jsp</result>
 		</action>
 
-		<action name="MyAction" class="edu.javamates.action.MyAction">
-			<result name="success">/jsp/my-action.jsp</result>
-		</action>
-
 		<action name="PrepareRequestForClaim" class="edu.javamates.action.PrepareRequestForClaimAction">
 			<result name="success">/jsp/request-claim.jsp</result>
 		</action>

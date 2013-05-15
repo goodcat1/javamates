@@ -126,7 +126,7 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log." suffix=".txt"/>
 
-      <Context docBase="/home/user/sites/javamates/javamates/server/wtpwebapps/ROOT" path="" reloadable="false"/><Context docBase="/home/user/apps/apache-tomee-plus-1.5.2/webapps/tomee" path="/tomee" reloadable="true"/><Context docBase="/home/user/sites/javamates/javamates/server/wtpwebapps/javamates" path="/javamates" reloadable="true" source="org.eclipse.jst.jee.server:javamates"/><Context docBase="/home/user/sites/javamates/javamates/server/wtpwebapps/bank-service-mock" path="/bank-service-mock" reloadable="true" source="org.eclipse.jst.jee.server:bank-service-mock"/></Host>
+      <Context docBase="/home/user/sites/javamates/javamates/server/wtpwebapps/ROOT" path="" reloadable="false"/><Context docBase="/home/user/apps/apache-tomee-plus-1.5.2/webapps/tomee" path="/tomee" reloadable="true"/><Context docBase="/home/user/sites/javamates/javamates/server/wtpwebapps/javamates" path="/javamates" reloadable="true" source="org.eclipse.jst.jee.server:javamates"/><Context docBase="/home/user/sites/javamates/javamates/server/wtpwebapps/bank-service-mock" path="/bank-service-mock" reloadable="true" source="org.eclipse.jst.jee.server:bank-service-mock"/><Context docBase="/home/user/sites/javamates/javamates/server/wtpwebapps/bank-service-mockClient" path="/bank-service-mockClient" reloadable="true" source="org.eclipse.jst.jee.server:bank-service-mockClient"/></Host>
     </Engine>
   </Service>
 </Server>

@@ -13,6 +13,12 @@ import org.slf4j.LoggerFactory;
 
 import edu.javamates.entity.Claim;
 
+/**
+ * EJB for initializing database on project startup in application server
+ * 
+ * @author Leonid Shitov 16.05.2013
+ * 
+ */
 @Stateless
 public class BootstrapBean implements BootstrapBeanLocal {
 	private static final Logger log = LoggerFactory

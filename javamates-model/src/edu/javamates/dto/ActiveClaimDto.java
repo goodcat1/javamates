@@ -4,16 +4,46 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * DTO for transfer table of user's active claims
+ * 
+ * @author Leonid Shitov 16.05.2013
+ * 
+ */
 public class ActiveClaimDto implements Serializable {
 	private static final long serialVersionUID = 2684493045996796824L;
 
+	/**
+	 * Claim identificator
+	 */
 	private Long id;
+	/**
+	 * Datetime of claim creation
+	 */
 	private Date createDate;
+	/**
+	 * Claim amount
+	 */
 	private BigDecimal amount;
+	/**
+	 * Claim rate
+	 */
 	private BigDecimal rate;
+	/**
+	 * Claim period, in months
+	 */
 	private int period;
+	/**
+	 * Presentation of claim state
+	 */
 	private String state;
+	/**
+	 * Presentation of claim purpose
+	 */
 	private String purpose;
+	/**
+	 * Description
+	 */
 	private String description;
 
 	public Long getId() {
